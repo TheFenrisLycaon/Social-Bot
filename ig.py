@@ -1,27 +1,38 @@
+from termcolor import cprint
+from pyfiglet import figlet_format
 import os
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from time import sleep
+from time import sleep, time
 import random
 import sys
 from time import sleep
 from datetime import datetime as date
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
+from colorama import init
+init(strip=not sys.stdout.isatty())
 
-def set_opt():        
+def clear(): 
+    if os.name == 'nt': 
+        _ = os.system('cls') 
+    else: 
+        _ = os.system('clear') 
+
+def set_opt():
     opt = Options()
     opt.add_argument("--disable-infobars")
     opt.add_argument("start-maximized")
     opt.add_argument("--disable-extensions")
     opt.add_argument('--ignore-certificate-errors-spki-list')
     opt.add_argument('--ignore-ssl-errors')
-    opt.add_experimental_option("excludeSwitches", ["enable-logging", 'enable-automation'])
-    opt.add_experimental_option("prefs", { \
-        "profile.default_content_setting_values.media_stream_mic": 1, 
+    opt.add_experimental_option(
+        "excludeSwitches", ["enable-logging", 'enable-automation'])
+    opt.add_experimental_option("prefs", {
+        "profile.default_content_setting_values.media_stream_mic": 1,
         "profile.default_content_setting_values.media_stream_camera": 1,
-        "profile.default_content_setting_values.geolocation": 1, 
-        
+        "profile.default_content_setting_values.geolocation": 1,
+
         "profile.default_content_setting_values.notifications": 1,
         "credentials_enable_service": False,
         "profile.password_manager_enabled": False
@@ -37,7 +48,8 @@ class InstaBot:
         self.query = ''
         self.tags = []
         self.posts = []
-        self.comments = ['Naaice', "Great", "Awesome", "Amazing", "<3", "Good", "Best", "Wow", "<3 <3", "Very Nice", "Yasss"]
+        self.comments = ['Naaice', "Great", "Awesome", "Amazing",
+                         "<3", "Good", "Best", "Wow", "<3 <3", "Very Nice", "Yasss"]
         self.driver = webdriver.Chrome(
             executable_path=r"C:\Bin\chromedriver.exe", options=set_opt())
         self.driver.minimize_window()
@@ -46,10 +58,11 @@ class InstaBot:
 
     def login(self):
         credIG = './Data/.credIG'
-        
+
         try:
             with open(credIG, 'r') as fileIn:
                 self.username, self.password = fileIn.read().split()
+            print('Credentials found... Logging In !!!')
         except:
             self.username = str(input("Enter Username::\t"))
             self.password = str(input("Enter Password::\t"))
@@ -63,8 +76,8 @@ class InstaBot:
                 credIG = './Data/.credIG'
 
                 with open(credIG, 'w') as fileIn:
-                    fileIn.write("{}\n{}".format(self.username,self.password))
-            
+                    fileIn.write("{}\n{}".format(self.username, self.password))
+
             else:
                 pass
 
@@ -85,6 +98,8 @@ class InstaBot:
             self.login()
 
     def loginagain(self):
+        clear()
+        cprint(figlet_format('Instagram', font='big'), 'white', attrs=['bold'])
         self.username = str(input("Enter Username :: "))
         self.password = str(input("Enter Password :: "))
         driver = self.driver
@@ -104,11 +119,12 @@ class InstaBot:
         print("Getting Your tags !!!")
         driver.find_element_by_xpath("//a[contains(@href, '/following')]")\
             .click()
-        sleep(5)  
+        sleep(5)
         driver.find_element_by_css_selector("body > div.RnEpo.Yx5HN > div > div > nav > a:nth-child(2) > span")\
             .click()
         sleep(3)
-        scroll_box = driver.find_element_by_css_selector('body > div.RnEpo.Yx5HN > div > div > div._8zyFd')
+        scroll_box = driver.find_element_by_css_selector(
+            'body > div.RnEpo.Yx5HN > div > div > div._8zyFd')
         links = scroll_box.find_elements_by_tag_name('a')
         names = [name.text for name in links if name != '']
         hashtags = [tag for tag in names if '#' in tag]
@@ -139,7 +155,7 @@ class InstaBot:
 
         print("Found {} posts.".format(len(self.posts)))
 
-    def get_posts_name(self,name):
+    def get_posts_name(self, name):
         driver = self.driver
         driver.get("https://www.instagram.com/{}/".format(name))
         sleep(2)
@@ -149,8 +165,8 @@ class InstaBot:
                 "window.scrollTo(0, document.body.scrollHeight);")
             sleep(1)
 
-        list_links=driver.find_elements_by_tag_name('a')
-        k=[]
+        list_links = driver.find_elements_by_tag_name('a')
+        k = []
         for i in list_links:
             k.append(i.get_attribute('href'))
 
@@ -161,7 +177,7 @@ class InstaBot:
         print("Found {} posts.".format(len(self.posts)))
 
     def get_posts_custom(self, tag):
-        driver=self.driver
+        driver = self.driver
         driver.get("https://www.instagram.com/explore/tags/{}/".format(tag))
         sleep(2)
 
@@ -170,8 +186,8 @@ class InstaBot:
                 "window.scrollTo(0, document.body.scrollHeight);")
             sleep(1)
 
-        list_links=driver.find_elements_by_tag_name('a')
-        k=[]
+        list_links = driver.find_elements_by_tag_name('a')
+        k = []
         for i in list_links:
             k.append(i.get_attribute('href'))
 
@@ -182,10 +198,10 @@ class InstaBot:
         print("Found {} posts.".format(len(self.posts)))
 
     def likes(self, n):
-        driver=self.driver
+        driver = self.driver
 
         for i in range(n):
-            m=random.randint(0, len(self.posts)-1)
+            m = random.randint(0, len(self.posts)-1)
             driver.get(self.posts[m])
             sleep(1)
             try:
@@ -198,10 +214,10 @@ class InstaBot:
                 sleep(2)
 
     def both(self, n):
-        driver=self.driver
+        driver = self.driver
 
         for i in range(n):
-            m=random.randint(0, len(self.posts)-1)
+            m = random.randint(0, len(self.posts)-1)
             driver.get(self.posts[m])
             sleep(2)
             try:
@@ -221,10 +237,10 @@ class InstaBot:
                 sleep(2)
 
     def comment(self, n):
-        driver=self.driver
+        driver = self.driver
 
         for i in range(n):
-            m=random.randint(0, len(self.posts)-1)
+            m = random.randint(0, len(self.posts)-1)
             driver.get(self.posts[m])
             sleep(1)
             try:
@@ -245,17 +261,17 @@ class InstaBot:
         self.posts = []
 
     def logout(self):
-        driver=self.driver
+        driver = self.driver
         driver.get("https://www.instagram.com/{}/".format(self.username))
         driver.find_element_by_css_selector(
             "#react-root > section > main > div > header > section > div.nZSzR > div > button").click()
         sleep(1)
         driver.find_element_by_css_selector(
             "body > div.RnEpo.Yx5HN > div > div > div > div > button:nth-child(9)").click()
-        self.username=''
-        self.password=''
-        self.tags=[]
-        self.posts=[]
+        self.username = ''
+        self.password = ''
+        self.tags = []
+        self.posts = []
 
     def closeBot(self):
         self.driver.close()
@@ -263,7 +279,10 @@ class InstaBot:
 
 def performance(me):
     # asks action method
-    tagOrName = int(input("[1] Perfrom via follwed hashtags\n[2] Perform via username\n[3] Perform via custom hashtag\n\n[99] Enter 99 at anytime to exit !\n\n\n"))
+    clear()
+    cprint(figlet_format('Instagram', font='big'), 'white', attrs=['bold'])
+    tagOrName = int(input(
+        "[1] Perfrom via follwed hashtags\n[2] Perform via username\n[3] Perform via custom hashtag\n\n[99] Enter 99 at anytime to exit !\n\n\n"))
 
     if tagOrName == 1:
         # performs via hashtags which are already folowed
@@ -273,10 +292,12 @@ def performance(me):
 
         if len(me.tags) == 0:
             #  if no hashtags
-            print("You don't follow any hashtags!!! Follow hashtags to use the service !!!")
+            print(
+                "You don't follow any hashtags!!! Follow hashtags to use the service !!!")
+            time.sleep(3)
             #  throws back to te choice again
-            tagOrName = int(input("[1] Perfrom via follwed hashtags\n[2] Perform via username\n[3] Perform via custom hashtag\n\n[99] Enter 99 at anytime to exit !\n\n\n"))
-        
+            performance(me)
+
         else:
             # gets posts from hashtags
             me.get_posts_tags()
@@ -284,12 +305,16 @@ def performance(me):
     elif tagOrName == 2:
         # gets username
         # then gets post links
+        clear()
+        cprint(figlet_format('Instagram', font='big'), 'white', attrs=['bold'])
         k = str(input("Enter target username ::\t"))
         me.get_posts_name(k)
 
     elif tagOrName == 3:
-        # gets hashtag 
+        # gets hashtag
         #  then gets post links
+        clear()
+        cprint(figlet_format('Instagram', font='big'), 'white', attrs=['bold'])
         k = str(input("Enter target hashtag :: \t"))
         me.get_posts_custom(k)
 
@@ -302,39 +327,48 @@ def performance(me):
         # throws back the choice menu
         performance(me)
 
+    clear()
+
+
 def execute(me):
     while True:
+        clear()
+        cprint(figlet_format('Instagram', font='big'), 'white', attrs=['bold'])
         #  get action
-        c=int(input("[1] Like\n[2] Comment\n[3] Like and Comment\n[99] Exit\n\n\n\nYour Choice::\t"))
+        c = int(input(
+            "[1] Like\n[2] Comment\n[3] Like and Comment\n[99] Exit\n\n\n\nYour Choice::\t"))
 
         if c == 1:
 
-            k=int(input("Enter Number Of Posts You Want To Like between 0 and {}::".format(len(me.posts))))
+            k = int(input(
+                "Enter Number Of Posts You Want To Like between 0 and {}::".format(len(me.posts))))
 
             if k <= 25:
                 me.likes(k)
 
             else:
-                k=int(input("Easy tiger... Don't wanna get banned, do ya ??\nTry Again between (0,25)::"))
+                k = int(input(
+                    "Easy tiger... Don't wanna get banned, do ya ??\nTry Again between (0,25)::"))
                 me.likes(k)
 
         elif c == 2:
 
-            k=int(input(
+            k = int(input(
                 "Enter Number Of Posts You Want To Comment between 0 and {}::".format(len(me.posts))))
 
             if k < 25:
                 me.comment(k)
 
         elif c == 3:
-            k=int(input("Enter Number Of Posts between 0 and {}::".format(len(me.posts))))
+            k = int(
+                input("Enter Number Of Posts between 0 and {}::".format(len(me.posts))))
 
             if k < 25:
                 me.both(k)
 
             else:
 
-                k=int(input(
+                k = int(input(
                     "Easy there bud... Don't wanna get banned, do ya ??\nTry Again between (0,25)::"))
                 me.comment(k)
 
@@ -351,7 +385,6 @@ def execute(me):
                 me.loginagain()
                 performance(me)
                 execute(me)
-                
 
             else:
                 me.closeBot()
@@ -362,11 +395,12 @@ def execute(me):
 
 
 if __name__ == '__main__':
+    clear()
+    cprint(figlet_format('Instagram', font='big'), 'white', attrs=['bold'])
     # starts the session of browser
-    me=InstaBot()
+    me = InstaBot()
     # logs in
     me.login()
     # gets the action method
     performance(me)
     execute(me)
-    
