@@ -2,6 +2,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/vscode,python,data
 # Edit at https://www.toptal.com/developers/gitignore?templates=vscode,python,data
 Data
+.vscode
+.vscode/*
 ### Data ###
 *.csv
 *.dat
