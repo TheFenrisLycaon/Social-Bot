@@ -24,7 +24,12 @@ if __name__ == "__main__":
     clear()
     banner()
     os.system('python ./sysFiles/redsetup.py {}'.format(sub))
-    if 'y' in input("Re-Run (y/n)::\t"):
+    clear()
+    banner()
+    k = input("[99] Exit\t\t\t[r] Re-Run\n\nEnter::\t")
+    if 'r' in k:
         os.system('python ./sysFiles/reddit.py')
+    elif '99' in k:
+        os.system("python main.py")
     else:
         exit()
