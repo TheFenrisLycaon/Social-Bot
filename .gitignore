@@ -2,8 +2,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/vscode,python,data
 # Edit at https://www.toptal.com/developers/gitignore?templates=vscode,python,data
 Data
-.vscode
-.vscode/*
 ### Data ###
 *.csv
 *.dat
@@ -157,13 +155,14 @@ dmypy.json
 
 # profiling data
 .prof
-
-### vscode ###
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+
+# Local History for Visual Studio Code
+.history/
 
 # End of https://www.toptal.com/developers/gitignore/api/vscode,python,data
