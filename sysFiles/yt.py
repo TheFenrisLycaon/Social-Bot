@@ -26,7 +26,7 @@ def adv(x):
     k = input('Choose format as written with numbers under "Format Code" ::\t\t')
     if k != 'r' and k != 'x':
         try:
-            os.system('youtube -dl -f {} {}'.format(k, x))
+            os.system('youtube-dl -f {} {}'.format(k, x))
             return
         except:
             k = 'poop'
