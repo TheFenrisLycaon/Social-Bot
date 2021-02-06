@@ -54,7 +54,7 @@ class twitterBot():
         self.password = ''
         self.query = ''
         self.driver = webdriver.Chrome(
-            executable_path=r"chromedriver.exe", options=set_opt())
+            executable_path="./sysFiles/chromedriver.exe", options=set_opt())
         self.driver.minimize_window()
         self.driver.get("https://twitter.com/login")
         sleep(2)

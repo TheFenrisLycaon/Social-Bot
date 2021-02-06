@@ -1,3 +1,4 @@
+#!/home/fenris/anaconda3/envs/scraper/bin/python3
 from termcolor import cprint
 from pyfiglet import figlet_format
 import os
@@ -13,6 +14,7 @@ def clear():
         _ = os.system('clear')
 
 
+
 def banner():
     cprint(figlet_format('YouTube', font='big'), 'white', attrs=['bold'])
 
@@ -22,11 +24,11 @@ def adv(x):
     banner()
     print(
         "You have entered advanced download mode. Enter [r] to rerun or [x] to exit.")
-    os.system("youtube-dl -F {}".format(x))
+    os.system(".\sysFiles\yt.exe -F {}".format(x))
     k = input('Choose format as written with numbers under "Format Code" ::\t\t')
     if k != 'r' and k != 'x':
         try:
-            os.system('youtube-dl -f {} {}'.format(k, x))
+            os.system('.\sysFiles\yt -f {} {}'.format(k, x))
             return
         except:
             k = 'poop'
@@ -42,17 +44,17 @@ def adv(x):
 def yt(x):
     k = input("Enter youtube link ::\t\t")
     if x == '1':
-        os.system('youtube-dl {}'.format(k))
+        os.system('.\sysFiles\yt.exe {}'.format(k))
     elif x == '2':
         adv(k)
     elif x == "3":
-        os.system('youtube-dl -x --audio-format mp3 {}'.format(k))
+        os.system('.\sysFiles\yt.exe -x --audio-format mp3 {}'.format(k))
         down()
     elif x == '4':
-        os.system('youtube-dl -cit -x --audio-format mp3 {}'.format(k))
+        os.system('.\sysFiles\yt.exe -cit -x --audio-format mp3 {}'.format(k))
         down()
     elif x == '5':
-        os.system('youtube-dl -cit {}'.format(k))
+        os.system('.\sysFiles\yt.exe -cit {}'.format(k))
         down()
     else:
         print("Invalid input...")

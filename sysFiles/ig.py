@@ -1,3 +1,4 @@
+#!/home/fenris/anaconda3/envs/scraper/bin/python3
 from termcolor import cprint
 from pyfiglet import figlet_format
 import os
@@ -54,7 +55,7 @@ class InstaBot:
         self.comments = ['Naaice', "Great", "Awesome", "Amazing",
                          "<3", "Good", "Best", "Wow", "<3 <3", "Very Nice", "Yasss"]
         self.driver = webdriver.Chrome(
-            executable_path=r"chromedriver.exe", options=set_opt())
+            executable_path="./sysFiles/88", options=set_opt())
         self.driver.minimize_window()
         self.driver.get("https://instagram.com")
         sleep(2)
@@ -189,6 +190,7 @@ class InstaBot:
             driver.execute_script(
                 "window.scrollTo(0, document.body.scrollHeight);")
             sleep(1)
+
 
         list_links = driver.find_elements_by_tag_name('a')
         k = []
