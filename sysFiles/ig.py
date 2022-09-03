@@ -389,7 +389,7 @@ def execute(me):
         #  get action
         c = int(
             input(
-                "[1] Like\n[2] Comment\n[3] Like and Comment\n[4] Compare Followers[99] Exit\n\n\n\nYour Choice::\t"
+                "[1] Like\n[2] Comment\n[3] Like and Comment\n[99] Exit\n\n\n\nYour Choice::\t"
             )
         )
 
